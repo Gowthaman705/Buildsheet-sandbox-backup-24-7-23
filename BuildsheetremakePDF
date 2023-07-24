@@ -1,0 +1,241 @@
+<!-- =============================================
+*Page Name      : Buildsheetremake
+*Description    : Takes input for Production based on ACT Serial number and search productions. Shows the report of selected production's Opportunity's Quote's Quotelinetems.
+*Company        : Merfantz Technologies Pvt Ltd
+*Date           : 6th Feb, 2020 
+*Version        : 1.0 
+============================================= -->
+
+<apex:page sidebar="false" CONTROLLER="BuildSheetController" showHeader="false" renderAs="pdf" applyBodyTag="false" applyHtmlTag="false"   lightningStylesheets="false" >
+<head>
+  
+  
+<style>
+table{
+            font-family: Arial Unicode MS;
+          
+            }
+           @page{
+                size: A4 potrait;
+                margin-right: 0.8cm;
+                margin-left: 0.8cm; 
+            } 
+            
+            /*th{
+              width:33.3%;
+              background-color: #8CD9F7;
+              border:2px solid black;
+               
+              table-layout: fixed;
+            }*/
+            
+            .tblbdr{
+              
+              border-top: 2px solid black;
+              border-collapse: collapse;
+              border-left: 2px solid black;
+              border-right: 2px solid black;
+              
+            }  
+           .tbltd{
+             border:2px solid black;
+            }  
+            table{
+            /*font-family: Arial Unicode MS;*/
+            font-family:sans-serif;
+            
+            }
+            input[type=text],select {
+              width: 20s%;
+              padding: 5px 20px;
+              margin: 8px 0;
+              display: inline-block;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              box-sizing: border-box;
+          }
+          
+          .mdltbl{       
+              
+              
+              border-left: 2px solid black;
+              border-right: 2px solid black;
+              table-layout: fixed;
+            } 
+            
+            .thborder{
+                border-left: 2px solid black;
+                border-right: 2px solid black;
+                border-bottom: 2px solid black;
+            }  
+            .tdborder{
+                border-top: 2px solid black;
+                border-right: 2px solid black;
+                border-bottom: 2px solid black;
+            } 
+            .blanktd{
+               border-top: none | important;
+               border-bottom:none;
+            }
+            .btmrtborder{
+               border-bottom:2px solid black;
+               border-right:2px solid black;
+            }
+            td{
+            font-size:11pt;
+            
+            }
+           
+</style>
+</head>
+<apex:Outputpanel >
+<table border="1" style="border-collapse: collapse;" width="100%">
+
+    <tr>
+        <td colspan="6" height="60" valign="top" style="font-size:17pt;border-bottom:none;border-right:none;border-left:2px solid black;border-top:2px solid black;">
+                 <div>
+                    ACT Dust Collectors Build Sheet<br/>
+                      <font style="font-size:12pt;">
+                          {!prodDetail.Primary_Contact_Name__c}
+                        {!prodDetail.Opportunity_Name__r.Primary_Contact_Email__c}<br/>
+
+                     </font>
+                    <font style="font-size:12pt;">
+                     •As of&nbsp;<apex:outputText value="{0,date,MM-dd-yyyy }">
+                                   <apex:param value="{!NOW()-0.2083333}"/>
+                                </apex:outputText><br/>
+                                •Sold by&nbsp; {!prodDetail.Sales_Rep__c}<br/>                                
+                                •Sold to&nbsp;{!prodDetail.Opportunity_Name__r.Account.Name}<br/><br/>
+
+                   </font>
+                 </div>
+          </td>
+
+           <td colspan="3" height="60" style="border-left:none;padding-right:.5em;padding-top:.5em;border-right:2px solid black;border-top:2px solid black;" valign="top">
+                 <div style="float:right;margin-left:25px;">
+                    <apex:image value="{!$Resource.Dustcollector_new}" width="250px"/>
+                 </div>
+               
+            <div style="float:right;margin-left:120px;">
+            <br/>
+        <table style="border:solid 2px black;border-collapse: collapse;" width="100%" >
+
+<tr>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;border-left:2px solid black;border-top:2px solid black;" width="50%"><b>Work Ticket Number</b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;border-left:2px solid black;border-top:2px solid black;" width="40%" >{!prodDetail.Work_Ticket_Number__c}</td>
+                </tr>                        </table>
+                     
+                 </div>
+               
+               
+                </td>
+    </tr>
+      <tr>
+        <td colspan="4" style="border-right:none;border-left:2px solid black;" width="40%"  valign="top">
+            <table  style="border:solid 2px;border-collapse: collapse;" width="100%" >
+                <tr><td height="35" style="border-bottom:2px solid black;border-top:2px solid black;border-right:2px solid black;" colspan="2"><u><center><b>Unit Details</b></center></u></td></tr>
+                <tr><td height="35" class="btmrtborder" width="40%"><b>Stock Number</b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;" width="30%">{!prodDetail.Opportunity_Name__r.Stock_Number1__c}</td>
+                </tr>
+                <tr>
+                    <td height="35" class="btmrtborder" ><b>ACT Serial Number</b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;" >{!prodDetail.ACT_Serial_Number__c}</td>
+                </tr>
+                <tr>
+                    <td height="35" class="btmrtborder" ><b>Blower Serial Number</b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;" >{!prodDetail.Blower_Serial_Number__c}</td>
+                </tr>
+                <tr>
+                    <td height="35" class="btmrtborder" ><b>ACT Filters in Collector</b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;" >{!prodDetail.ACT_Filters_in_Collector2__c}</td>
+                </tr>
+                <tr>
+                    <td height="35" class="btmrtborder" ><b>Production Name</b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;" >{!prodDetail.name}</td></tr>
+              <!--  <tr>
+                    <td height="35" class="btmrtborder" ><b>Quotes </b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;" >{!prodDetail.name}</td></tr> -->   
+                <tr>
+                    <td height="35" style="border-right:2px solid black;" colspan="2"><b><u><center>Control Panel</center></u></b></td>
+                </tr>
+                <tr>
+                    <td height="35" class="btmrtborder" style="border-top:2px solid black" ><b>ACT Control Type</b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;" >{!prodDetail.ACT_Controls__c}</td>
+                </tr>
+                <tr>
+                    <td height="35" class="btmrtborder" ><b>Voltage</b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;" >{!prodDetail.Voltage__c}</td>
+                </tr>
+                <tr>
+                    <td height="35" class="btmrtborder" ><b>Timer Board</b></td>
+                    <td height="35" style="border-bottom:2px solid black;border-right:2px solid black;" >{!prodDetail.Timer_Board__c}</td>
+                </tr>
+        </table>
+    
+    </td>
+    <td style="border-left:none;border-right:none;border-bottom:none;border-top:none;" width="2%">
+    </td>
+    <td style="border-left:none;border-right:none;" colspan="2" width="28%"  valign="top">
+     <table style="border:solid 2px;border-collapse: collapse;" width="100%" >
+
+            <tr><td height="35" style="border-bottom:2px solid black;border-top:2px solid black;border-left:2px solid black;border-right:2px solid black;" colspan="2"><b><u><center>Freight</center></u></b></td></tr>
+            <tr><td height="35" style="border-bottom:2px solid black;border-left:2px solid black;border-right:2px solid black" colspan="2"><b><center>Ship to Address</center></b></td></tr>
+            <tr rowspan="4"><td valign="top" height="140" style="border-bottom:2px solid black;border-left:2px solid black;border-right:2px solid black" colspan="2">{!prodDetail.SHIP_TO_ADDRESS__c}</td></tr>
+            <tr><td height="35" style="border-bottom:2px solid black;border-left:2px solid black;border-right:2px solid black" colspan="2"><b><center>Freight Instructions</center></b></td></tr>
+            <tr rowspan="2"><td valign="top" height="70" style="border-bottom:2px solid black;border-left:2px solid black;border-right:2px solid black" colspan="2">{!prodDetail.Freight_Instructions_del__c}</td></tr>
+            <tr><td height="35" style="border-right:2px solid black;border-left:2px solid black;border-bottom:2px solid black" width="50%"><b>Ship Date New</b></td><td height="35" style="border-bottom:2px solid black;border-right:2px solid black" width="50%"><apex:outputText value="{0,date,MM/dd/yyyy }">
+                               <apex:param value="{!prodDetail.Ship_Date_New__c}"/>
+                            </apex:outputText></td></tr>
+        </table>
+
+    </td> 
+    <td style="border-left:none;border-right:none;border-bottom:none;border-top:none;" width="2%">
+    </td>   
+
+    <td style="border-left:none;border-right:2px solid black"  width="28%" valign="top">
+        
+        <table style="border:solid 2px black;border-collapse: collapse;" width="100%" >
+             
+
+            <tr><td height="35" style="border-left:solid 2px black;border-bottom:solid 2px black;border-top:solid 2px black;"><b><u><center>Additional Info</center></u></b></td></tr>
+            <tr><td height="35" style="border-left:solid 2px black;border-bottom:solid 2px black;"><b><center>Tech Notes</center></b></td></tr>
+            <tr><td height="140" valign="top" style="border-left:solid 2px black;border-bottom:solid 2px black;">{!prodDetail.Tech_Notes__c}</td></tr>
+            <tr><td height="35" style="border-left:solid 2px black;border-bottom:solid 2px black;"><b><center>Sold Outline Summery</center></b></td></tr>
+            <tr><td height="105" valign="top" style="border-left:solid 2px black;border-bottom:solid 2px black;">{!prodDetail.Special_Instructions__c}</td></tr>
+        </table>
+    </td>
+</tr>
+<tr style="display:{!if(qltmList.size>0,'none','')};">
+    <td height="40" colspan="9" style="border-bottom:2px solid black;border-left:2px solid black;border-right:2px solid black;"></td>
+</tr>
+
+<tr style="display:{!if(qltmList.size>0,'','none')};">
+    <td height="40" colspan="9" style="border-bottom:2px solid black;border-left:2px solid black;border-right:2px solid black;"><center><font style="font-weight:bold;font-size:20px">Components/Adders</font></center></td>
+</tr>
+  
+<tr style="display:{!if(qltmList.size>0,'','none')};">
+    <td style="border-right:2px solid black;border-left:2px solid black;" height="35" width="5%"><center><b>Qty</b></center></td>
+    <td style="border-right:2px solid black;font-weight:bold" height="35" width="20%"><center>Part Number</center></td>
+    <td style="border-right:2px solid black;" height="35" width="5%"><center><apex:image value="{!$Resource.Tick}"  width="15px"/></center></td>
+    <td style="border-right:2px solid black;" width="70" height="35" colspan="6"><center><b>Description</b></center></td>
+</tr>
+
+<apex:repeat value="{!qltmList}" var="qltms" rendered="{!if(qltmList.size>0,true,false)}">
+     
+     <tr style="{!if(OR(qltms.SBQQ__NetTotal__c==0.00,qltms.SBQQ__ProductCode__c=='*New Equipment - Baghouse',qltms.SBQQ__ProductCode__c=='*New Equipment - Cartridge Collector',qltms.SBQQ__ProductCode__c=='Filter Upgrade',qltms.SBQQ__ProductFamily__c=='Custom – New Equipment'),"display:none",'')}">
+     <td  style="border-bottom:2px solid black;border-top:2px solid black;border-right:2px solid black;border-left:2px solid black;" height="35" > <apex:outputtext value="{0,number,#,##0}"><apex:param value="{!qltms.SBQQ__Quantity__c}" /></apex:outputtext></td>
+      
+     <td style="border-bottom:2px solid black;border-top:2px solid black;border-right:2px solid black;" height="35"  >{!qltms.SBQQ__ProductName__c}</td>
+     <td   style="border-bottom:2px solid black;border-top:2px solid black;border-right:2px solid black;" height="35"><center><apex:image value="{!$Resource.Unchecked}" width="20px"/></center></td>
+     <td   colspan="6" style="border-bottom:2px solid black;border-top:2px solid black;border-right:2px solid black;" height="35"><apex:outputfield value="{!qltms.SBQQ__Description__c}"/></td>
+     </tr>
+     
+     
+     </apex:repeat>
+    </table>
+      
+</apex:outputPanel>
+
+
+
+</apex:page>
